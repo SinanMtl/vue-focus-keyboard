@@ -1,9 +1,8 @@
 {
 	"name": "vue-focus-keyboard",
 	"version": "0.0.1",
-	"description":
-		"A keyboard component for Vue. Start to write immediately. No input element definition. Plug and play!",
-	"main": "index.js",
+	"description": "A keyboard component for Vue. Start to write immediately. No input element definition. Plug and play!",
+	"main": "main.js",
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
@@ -26,5 +25,20 @@
 	"bugs": {
 		"url": "https://github.com/SinanMtl/vue-focus-keyboard/issues"
 	},
-	"homepage": "https://github.com/SinanMtl/vue-focus-keyboard#readme"
+	"homepage": "https://github.com/SinanMtl/vue-focus-keyboard#readme",
+	"dependencies": {
+		"vue": "^2.4.2"
+	},
+	"devDependencies": {
+		"babel-loader": "^7.1.4",
+		"css-loader": "^0.28.10",
+		"friendly-errors-webpack-plugin": "^1.6.1",
+		"html-webpack-plugin": "^3.0.6",
+		"url-loader": "^1.0.1",
+		"vue-loader": "^14.2.1",
+		"vue-template-compiler": "^2.4.2",
+		"webpack": "^4.1.1",
+		"webpack-cli": "^2.0.12",
+		"webpack-dev-server": "^3.1.1"
+	}
 }

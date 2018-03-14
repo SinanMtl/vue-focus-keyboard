@@ -1,12 +1,12 @@
-<template lang="pug">
+<template>
   <transition name="slideUp">
-    <div class="KeyboardComponent" v-if="show" :class="theme" @click="input.focus()" @contextmenu.prevent="">
+    <div class="KeyboardComponent" v-if="show" :class="theme" @click="input.focus()" @contextmenu.prevent>
       <div class="buttons" :style="{width: keyboardWidth}">
-        <div class="key-row" v-for="row in currentButtons">
-          <button type="button" v-for="key in row" :class="getClass(key)" :style="getStyle(key)" @mousedown="pressAndHold($event, key)" @mouseup="pressAndHold($event, key)" @click.prevent="buttonPress(key)" @touchstart="pressAndHold($event, key)" @touchend="pressAndHold($event, key)">
+        <div class="key-row" v-for="(row, index) in currentButtons" :key="index">
+          <button type="button" v-for="(key, i) in row" :key="i" :class="getClass(key)" :style="getStyle(key)" @mousedown="pressAndHold($event, key)" @mouseup="pressAndHold($event, key)" @click.prevent="buttonPress(key)" @touchstart="pressAndHold($event, key)" @touchend="pressAndHold($event, key)">
             <div class="text">
               <svg class="icon" v-if="getIconByMetaKey(key)">
-                <use :xlink:href="`./icons.svg#icon-${getIconByMetaKey(key)}`"></use>
+                <use :xlink:href="`./src/img/icons.svg#icon-${getIconByMetaKey(key)}`"></use>
               </svg>
               <template v-else-if="/(ctrl(l|r))/g.test(key)">Ctrl</template>
               <template v-else-if="key === '{alt}'">Alt</template>
@@ -19,40 +19,10 @@
       </div>
     </div>
   </transition>
-
-  transition(name="slideUp")
-    .KeyboardComponent(
-      v-if="show",
-      :class="theme",
-      @click="input.focus()",
-      @contextmenu.prevent="")
-      include ./assets/icons
-
-      .buttons(:style="{width: keyboardWidth}")
-        .key-row(v-for="row in currentButtons")
-          button(
-            type="button",
-            v-for="key in row",
-            :class="getClass(key)",
-            :style="getStyle(key)"
-            @mousedown="pressAndHold($event, key)",
-            @mouseup="pressAndHold($event, key)",
-            @click.prevent="buttonPress(key)",
-            @touchstart="pressAndHold($event, key)",
-            @touchend="pressAndHold($event, key)")
-            .text
-              svg.icon(v-if="getIconByMetaKey(key)")
-                use(:xlink:href="`#icon-${getIconByMetaKey(key)}`")
-
-              template(v-else-if="/(ctrl(l|r))/g.test(key)") Ctrl
-              template(v-else-if="key === '{alt}'") Alt
-              template(v-else-if="key === '{altgr}'") Alt Gr
-              template(v-else-if="/(space|empty)/g.test(key)") &nbsp;
-              template(v-else) {{ key }}
 </template>
 
 <script>
-  import layout from './scripts/layout'
+  import layout from './layout'
 
   let eventKeyDown = new Event('keydown')
   let eventKeyUp = new Event('keyup')
@@ -217,7 +187,8 @@
           'search', 'tel', 'url'
         ]
         let isContentEditable = input.getAttribute('contenteditable')
-        return expectedTypes.indexOf(input.type) > -1 || !!isContentEditable
+        let isTextarea = input.nodeName === 'TEXTAREA'
+        return expectedTypes.indexOf(input.type) > -1 || !!isContentEditable || isTextarea
       },
       backspace (cursor) {
         let val = this.input.value || this.input.innerHTML
@@ -294,8 +265,12 @@
             break
   
           case '{enter}':
-            if (this.input.form) {
-              this.input.form.submit()
+            if (this.input.nodeName === 'TEXTAREA') {
+              val = this.setKey(cursor, "\n")
+            } else {
+              if (this.input.form) {
+                this.input.form.submit()
+              }
             }
             break
   
@@ -304,7 +279,9 @@
             break
         }
 
-        if (key === '{enter}') return
+        if (key === '{enter}' && this.input.nodeName !== 'TEXTAREA') {
+          return false
+        }
 
         let isContentEditable = !!this.input.getAttribute('contenteditable')
         if (isContentEditable) {
@@ -439,6 +416,10 @@
 </script>
 
 <style scoped>
+  .KeyboardComponent
+  .KeyboardComponent *{
+    box-sizing: border-box;
+  }
   .KeyboardComponent{
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     display: flex;
@@ -487,8 +468,11 @@
     cursor: pointer;
   }
 
+  .KeyboardComponent button:focus{
+    outline: none;
+  }
+
   .KeyboardComponent button .text:first-child{padding-top: 2px;}
-  .KeyboardComponent button .text:last-child{padding-bottom: 6px;}
 
   .KeyboardComponent button .text.right-bottom{
     right: 5px;
