@@ -39,6 +39,8 @@
 </template>
 
 <script>
+import FocusKeyboard from './FocusKeyboard'
+
 export default {
   name: 'App',
   data () {
@@ -51,6 +53,9 @@ export default {
         'numeric',
       ]
     }
+  },
+  components: {
+    FocusKeyboard
   }
 }
 </script>
