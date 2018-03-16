@@ -1,81 +1,89 @@
+var ora = require('ora')
+var path = require('path')
+var chalk = require('chalk')
 var webpack = require('webpack')
 var version = require('./package.json').version
-var banner =
-	'/**\n' +
-	' * vue-touch-keyboard v' +
-	version +
-	'\n' +
-	' * https://github.com/icebob/vue-touch-keyboard\n' +
-	' * Released under the MIT License.\n' +
-	' */\n'
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var StatsPlugin = require('stats-webpack-plugin')
 
-var loaders = [
-	{
-		test: /\.js?$/,
-		exclude: /node_modules/,
-		loader: 'babel'
+var banner = `
+/**
+ * vue-focus-keyboard v ${version}
+ * https://github.com/SinanMtl/vue-focus-keyboard
+ * Released under the MIT License.
+ */
+`
+
+var config = {
+	entry: './src/index.js',
+	output: {
+		path: path.resolve(__dirname, './dist'),
+		publicPath: '/dist/',
+		filename: 'vue-focus-keyboard.js',
+		library: 'VueFocusKeyboard',
+		libraryTarget: 'umd',
+		umdNamedDefine: true
 	},
-	{
-		test: /\.vue$/,
-		loader: 'vue'
+	optimization: {
+		minimize: true
 	},
-	{
-		test: /\.svg$/,
-		loader: 'url'
-	}
-]
-
-module.exports = [
-	{
-		entry: './src/index',
-		output: {
-			path: './dist',
-			filename: 'vue-touch-keyboard.js',
-			library: 'VueTouchKeyboard',
-			libraryTarget: 'umd'
-		},
-
-		plugins: [
-			new webpack.DefinePlugin({
-				'process.env': {
-					NODE_ENV: JSON.stringify('production')
-				}
-			}),
-			new webpack.optimize.UglifyJsPlugin({
-				compress: {
-					warnings: false
-				}
-			}),
-			new webpack.optimize.DedupePlugin(),
-			new webpack.BannerPlugin(banner, {
-				raw: true
-			}),
-			new ExtractTextPlugin('vue-touch-keyboard.css', { allChunks: true }),
-			new StatsPlugin('../stats.json', {
-				chunkModules: true
-				//exclude: [/node_modules[\\\/]react/]
-			})
-		],
-
-		module: {
-			loaders
-		},
-
-		vue: {
-			loaders: {
-				css: ExtractTextPlugin.extract('css'),
-				postcss: ExtractTextPlugin.extract('css'),
-				sass: ExtractTextPlugin.extract('css!sass')
+	mode: 'production',
+	devtool: false,
+	plugins: [
+		new webpack.DefinePlugin({
+			'process.env': {
+				NODE_ENV: JSON.stringify('production')
 			}
-		},
-
-		resolve: {
-			packageAlias: 'browser',
-			alias: {
-				vue$: 'vue/dist/vue.common.js'
+		}),
+		new webpack.BannerPlugin(banner)
+	],
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				loader: 'babel-loader',
+				include: [path.resolve(__dirname, './src')]
+			},
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader'
+			},
+			{
+				test: /\.svg$/,
+				loader: 'url-loader',
+				options: {
+					limit: 10000,
+					name: path.posix.join('src/', 'img/[name].[hash:7].[ext]')
+				}
 			}
+		]
+	},
+	resolve: {
+		alias: {
+			vue$: 'vue/dist/vue.common.js'
 		}
 	}
-]
+}
+
+var spinner = ora('building for production...')
+spinner.start()
+
+webpack(config, function(err, stats) {
+	spinner.stop()
+	if (err) throw err
+	process.stdout.write(
+		stats.toString({
+			colors: true,
+			modules: false,
+			children: false,
+			chunks: false,
+			chunkModules: false
+		}) + '\n\n'
+	)
+
+	console.log(chalk.cyan('  Build complete.\n'))
+	console.log(
+		chalk.yellow(
+			'  Tip: built files are meant to be served over an HTTP server.\n' +
+				"  Opening index.html over file:// won't work.\n"
+		)
+	)
+})

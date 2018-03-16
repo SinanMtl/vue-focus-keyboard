@@ -3,7 +3,26 @@
     <div class="container">
         <h1>Vue Focus Keyboard Component</h1>
         <div class="row">
-          <div class="col">
+          <div class="col col-6">
+              <div class="form-group">
+                <div class="row">
+                  <div class="col col-6">
+                    <label>Keyboard Type</label>
+                    <select class="form-control" v-model="selected_keyboard">
+                      <option v-for="(keyboardType, index) in list" :key="index" :value="keyboardType">{{ keyboardType }}</option>
+                    </select>
+                  </div>
+
+                  <div class="col col-6">
+                    <label>Theme</label>
+                    <select class="form-control" v-model="theme">
+                      <option value="dark">Dark</option>
+                      <option value="light">Light</option>
+                    </select>
+                  </div>
+
+                </div>
+              </div>
               <div class="form-group">
                 <label>Standart Input</label>
                 <input class="form-control" type="text">
@@ -14,18 +33,24 @@
               </div>
           </div>
         </div>
-      <FocusKeyboard></FocusKeyboard>
+      <FocusKeyboard :keyboard="selected_keyboard" :theme="theme"></FocusKeyboard>
     </div>
   </div>
 </template>
 
 <script>
-import FocusKeyboard from './FocusKeyboard.vue'
-
 export default {
   name: 'App',
-  components: {
-    FocusKeyboard
+  data () {
+    return {
+      selected_keyboard: 'us_international',
+      theme: 'dark',
+      list: [
+        'us_international',
+        'turkish_qwerty_pc',
+        'numeric',
+      ]
+    }
   }
 }
 </script>
@@ -38,6 +63,7 @@ export default {
   body{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 1rem;
+    text-align: center;
   }
 
   .small, small {
@@ -52,6 +78,7 @@ export default {
   
   .form-group {
     margin-bottom: 1em;
+    text-align: left;
   }
 
   .form-control {
@@ -66,6 +93,10 @@ export default {
     border: 1px solid #ced4da;
     border-radius: .25rem;
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+  
+  select.form-control{
+    height: 38px;
   }
 
   .form-control:focus {
@@ -120,10 +151,25 @@ export default {
   .row{
     display: flex;
     align-items: center;
+    justify-content: center;
+    margin: 0 -15px;
   }
 
   .col{
-    /* flex: 1; */
+    padding: 0 15px;
   }
+
+  .col-1{width: 8.333333333333334%;}
+  .col-2{width: 16.666666666666668%;}
+  .col-3{width: 25%;}
+  .col-4{width: 33.333333333333336%;}
+  .col-5{width: 41.66666666666667%;}
+  .col-6{width: 50%;}
+  .col-7{width: 58.333333333333336%;}
+  .col-8{width: 66.66666666666667%;}
+  .col-9{width: 75%;}
+  .col-10{width: 83.33333333333334%;}
+  .col-11{width: 91.66666666666667%;}
+  .col-12{width: 100%;}
 </style>
 

@@ -68,6 +68,7 @@ module.exports = {
 			ignored: /node_modules/
 		}
 	},
+	mode: 'development',
 	plugins: [
 		new webpack.DefinePlugin({
 			'process.env': {

@@ -47,7 +47,7 @@
   }
 
   export default {
-    name: 'Keyboard',
+    name: 'FocusKeyboard',
     props: {
       keyboardWidth: {
         type: [String, Number],
@@ -184,7 +184,8 @@
       isSupportedType (input) {
         let expectedTypes = [
           'text', 'password',
-          'search', 'tel', 'url'
+          'search', 'tel', 'url',
+          'number'
         ]
         let isContentEditable = input.getAttribute('contenteditable')
         let isTextarea = input.nodeName === 'TEXTAREA'
@@ -224,7 +225,8 @@
         splitted.splice(cursor.start, 0, key)
         return splitted.join('')
       },
-      ctrlCombination (key) {
+      ctrlCombination (key = '') {
+        if (typeof key !== 'string') return false
         switch (key.toLowerCase()) {
           case 'a':
             this.input.select()
