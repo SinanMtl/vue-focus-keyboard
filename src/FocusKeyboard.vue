@@ -185,7 +185,7 @@
         let expectedTypes = [
           'text', 'password',
           'search', 'tel', 'url',
-          'number'
+          'email', 'number'
         ]
         let isContentEditable = input.getAttribute('contenteditable')
         let isTextarea = input.nodeName === 'TEXTAREA'
