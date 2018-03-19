@@ -44,8 +44,7 @@ module.exports = {
 				test: /\.svg$/,
 				loader: 'url-loader',
 				options: {
-					limit: 10000,
-					name: path.posix.join('src/', 'img/[name].[hash:7].[ext]')
+					limit: 10000
 				}
 			}
 		]

@@ -6,7 +6,7 @@
           <button type="button" v-for="(key, i) in row" :key="i" :class="getClass(key)" :style="getStyle(key)" @mousedown="pressAndHold($event, key)" @mouseup="pressAndHold($event, key)" @click.prevent="buttonPress(key)" @touchstart="pressAndHold($event, key)" @touchend="pressAndHold($event, key)">
             <div class="text">
               <svg class="icon" v-if="getIconByMetaKey(key)">
-                <use :xlink:href="`../src/img/icons.svg#icon-${getIconByMetaKey(key)}`"></use>
+                <use :xlink:href="`static/icons.svg#icon-${getIconByMetaKey(key)}`"></use>
               </svg>
               <template v-else-if="/(ctrl(l|r))/g.test(key)">Ctrl</template>
               <template v-else-if="key === '{alt}'">Alt</template>

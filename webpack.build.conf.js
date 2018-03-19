@@ -2,6 +2,7 @@ var ora = require('ora')
 var path = require('path')
 var chalk = require('chalk')
 var webpack = require('webpack')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 var version = require('./package.json').version
 
 var banner = `
@@ -33,7 +34,15 @@ var config = {
 				NODE_ENV: JSON.stringify('production')
 			}
 		}),
-		new webpack.BannerPlugin(banner)
+		new webpack.BannerPlugin(banner),
+		// copy custom static assets
+		new CopyWebpackPlugin([
+			{
+				from: path.resolve(__dirname, 'static'),
+				to: path.resolve(__dirname, 'dist/static'),
+				ignore: ['.*']
+			}
+		])
 	],
 	module: {
 		rules: [
@@ -51,7 +60,7 @@ var config = {
 				loader: 'url-loader',
 				options: {
 					limit: 10000,
-					name: path.posix.join('src/', 'img/[name].[hash:7].[ext]')
+					name: path.posix.join('static/', '[name].[hash:7].[ext]')
 				}
 			}
 		]
