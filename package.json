@@ -1,6 +1,6 @@
 {
 	"name": "vue-focus-keyboard",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"description": "A keyboard component for Vue. Start to write immediately. No input element definition. Plug and play!",
 	"main": "dist/vue-focus-keyboard.js",
 	"scripts": {
