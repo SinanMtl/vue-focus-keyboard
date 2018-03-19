@@ -381,12 +381,10 @@
         return parents
       },
       onFocusInput (e) {
-        if (this.isInput(e.target)) {
-          if (this.isSupportedType(e.target)) {
-            this.input = e.target
-            this.input.addEventListener('keydown', () => {})
-            this.open()
-          }
+        if (this.isInput(e.target) && this.isSupportedType(e.target)) {
+          this.input = e.target
+          this.input.addEventListener('keydown', () => {})
+          this.open()
         }
       },
       onDocumentClick (e) {
@@ -398,7 +396,7 @@
         ) {
           return false
         }
-        if (this.isInput(e.target)) {
+        if (this.isInput(e.target) && this.isSupportedType(e.target)) {
           this.input = e.target
           return false
         }
