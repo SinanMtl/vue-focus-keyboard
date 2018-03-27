@@ -2,27 +2,22 @@ var ora = require('ora')
 var path = require('path')
 var chalk = require('chalk')
 var webpack = require('webpack')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CopyWebpackPlugin = require('copy-webpack-plugin')
-var package = require('./package.json')
+var version = require('./package.json').version
 
-var banner = `
-/**
- * vue-focus-keyboard v${package.version}
-* @description ${package.description}
-* https://github.com/SinanMtl/vue-rate
-* Released under the MIT License.
-*/
-`
+function resolve(dir) {
+	return path.join(__dirname, '..', dir)
+}
 
 var config = {
-	entry: './dev/index.js',
+	entry: {
+		app: './dev/main.js'
+	},
 	output: {
-		path: path.resolve(__dirname, './dist'),
-		publicPath: '/dist/',
-		filename: 'vue-focus-keyboard.js',
-		library: 'VueFocusKeyboard',
-		libraryTarget: 'umd',
-		umdNamedDefine: true
+		path: path.resolve(__dirname, './demo'),
+		filename: '[name].js',
+		publicPath: '/'
 	},
 	optimization: {
 		minimize: true
@@ -35,15 +30,29 @@ var config = {
 				NODE_ENV: JSON.stringify('production')
 			}
 		}),
-		new webpack.BannerPlugin({ banner, raw: true, entryOnly: true }),
+		new webpack.BannerPlugin(banner),
 		// copy custom static assets
 		new CopyWebpackPlugin([
 			{
 				from: path.resolve(__dirname, 'static'),
-				to: path.resolve(__dirname, 'dist/static'),
+				to: path.resolve(__dirname, 'demo/static'),
 				ignore: ['.*']
 			}
-		])
+		]),
+		new HtmlWebpackPlugin({
+			filename: './index.html',
+			template: 'index.html',
+			inject: true,
+			minify: {
+				removeComments: true,
+				collapseWhitespace: true,
+				removeAttributeQuotes: true
+				// more options:
+				// https://github.com/kangax/html-minifier#options-quick-reference
+			},
+			// necessary to consistently work with multiple chunks via CommonsChunkPlugin
+			chunksSortMode: 'dependency'
+		})
 	],
 	module: {
 		rules: [
@@ -67,8 +76,10 @@ var config = {
 		]
 	},
 	resolve: {
+		extensions: ['.js', '.vue', '.json'],
 		alias: {
-			vue$: 'vue/dist/vue.common.js'
+			vue$: 'vue/dist/vue.common.js',
+			'@': path.resolve(__dirname, './dev')
 		}
 	}
 }

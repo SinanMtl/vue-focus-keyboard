@@ -1,8 +1,8 @@
-let FocusKeyboard = require('./FocusKeyboard.vue')
+let FocusKeyboard = require('../src/FocusKeyboard.vue')
 
 module.exports = {
 	component: FocusKeyboard,
-	layouts: require('./layout'),
+	layouts: require('../src/layout'),
 	install(Vue) {
 		Vue.component(FocusKeyboard.default.name, FocusKeyboard.default)
 	}

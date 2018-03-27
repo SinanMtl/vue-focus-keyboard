@@ -12,7 +12,7 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 module.exports = {
 	devtool: '#cheap-module-eval-source-map',
 	entry: {
-		app: path.resolve(__dirname, './src/main.js')
+		app: path.resolve(__dirname, './dev/main.js')
 	},
 	output: {
 		path: path.resolve(__dirname, './dist'),
@@ -23,7 +23,7 @@ module.exports = {
 		extensions: ['.js', '.vue', '.json'],
 		alias: {
 			vue$: 'vue/dist/vue.esm.js',
-			'@': path.resolve(__dirname, './src')
+			'@': path.resolve(__dirname, './dev')
 		}
 	},
 	module: {
@@ -32,7 +32,7 @@ module.exports = {
 				test: /\.js$/,
 				loader: 'babel-loader',
 				include: [
-					path.resolve(__dirname, './src'),
+					path.resolve(__dirname, './dev'),
 					path.resolve(__dirname, './test')
 				]
 			},

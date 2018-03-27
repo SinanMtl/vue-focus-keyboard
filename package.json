@@ -5,7 +5,8 @@
 	"main": "dist/vue-focus-keyboard.js",
 	"scripts": {
 		"build": "node webpack.build.conf.js",
-		"dev": "webpack-dev-server --config webpack.dev.conf.js"
+		"dev": "webpack-dev-server --config webpack.dev.conf.js",
+		"demo": "node webpack.demo.js"
 	},
 	"repository": {
 		"type": "git",
@@ -42,7 +43,7 @@
 		"css-loader": "^0.28.10",
 		"extract-text-webpack-plugin": "^3.0.2",
 		"friendly-errors-webpack-plugin": "^1.6.1",
-		"html-webpack-plugin": "^3.0.6",
+		"html-webpack-plugin": "^3.1.0",
 		"ora": "^2.0.0",
 		"stats-webpack-plugin": "^0.6.2",
 		"url-loader": "^1.0.1",

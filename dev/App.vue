@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import FocusKeyboard from './FocusKeyboard'
+import FocusKeyboard from '../src/FocusKeyboard'
 
 export default {
   name: 'App',
