@@ -17,7 +17,7 @@ var config = {
 	output: {
 		path: path.resolve(__dirname, './demo'),
 		filename: '[name].js',
-		publicPath: '/'
+		publicPath: './'
 	},
 	optimization: {
 		minimize: true
@@ -30,7 +30,6 @@ var config = {
 				NODE_ENV: JSON.stringify('production')
 			}
 		}),
-		new webpack.BannerPlugin(banner),
 		// copy custom static assets
 		new CopyWebpackPlugin([
 			{
