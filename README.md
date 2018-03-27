@@ -7,13 +7,13 @@
 
 ## Installation and usage
 
-Install rate component for your project
+Install the Vue Focus Keyboard component for your project
 
 ```bash
 npm install vue-focus-keyboard --save
 ```
 
-Then, add Vue Focus Keyboard into your app
+Then, add component into your app
 
 ```javascript
 import FocusKeyboard from 'vue-focus-keyboard';
