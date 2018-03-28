@@ -24,7 +24,7 @@
                 </div>
               </div>
               <div class="form-group">
-                <label>Standart Input</label>
+                <label>Standard Input</label>
                 <input class="form-control" type="text">
               </div>
               <div class="form-group">
