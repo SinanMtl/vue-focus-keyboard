@@ -459,6 +459,7 @@
     position: relative;
     height: 50px;
     margin: 2.5px;
+    padding: 0;
     border-radius: 3px;
     color: #FFF;
     font-size: 18px;
